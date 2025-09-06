@@ -13,7 +13,6 @@ export const ENDPOINTS = {
         GET_ONE: (id: number) => `${API_BASE}/users/${id}`,
         UPDATE: (id: number) => `${API_BASE}/users/${id}`,
         DELETE: (id: number) => `${API_BASE}/users/${id}`,
-        SET_ROLE: (id: number) => `${API_BASE}/users/${id}/role`,
         ME: `${API_BASE}/users/me`,
         ME_POSTS: `${API_BASE}/users/me/posts`,
         USER_POSTS: (userId: number) => `${API_BASE}/users/${userId}/posts`,
