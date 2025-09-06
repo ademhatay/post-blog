@@ -1,0 +1,58 @@
+.btn {
+  --btn-bg: transparent;
+  --btn-bg-hover: transparent;
+  --btn-text: inherit;
+  --btn-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 0.375rem;
+  padding: 0.625rem 1rem;
+  transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease, opacity 150ms ease, box-shadow 150ms ease;
+  cursor: pointer;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  border-color: var(--btn-border);
+}
+
+.btn:hover:not([disabled]) {
+  background-color: var(--btn-bg-hover);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn--sm {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+}
+
+.btn--md {
+  padding: 0.625rem 1rem;
+  font-size: 0.95rem;
+}
+
+.btn--lg {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+}
+
+.btn--rounded {
+  border-radius: 0.75rem;
+}
+
+.btn--pill {
+  border-radius: 9999px;
+}
+
+.btn--block {
+  width: 100%;
+}

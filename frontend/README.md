@@ -37,9 +37,9 @@ bun run build
 
 ## İleride Eklenebilecekler
 
-- Kullanıcı girişi
 - Makale yazma/düzenleme
 - Yorum sistemi
 - Arama
 - Kategoriler
 - Karanlık mod
+- Çoklu dil desteği

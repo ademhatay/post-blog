@@ -30,3 +30,7 @@ bun run build
 ```
 
 ## İleride Eklenebilecekler
+
+- Gelişmiş Filteleme ve Sıralama
+- Rate Limit
+- Loglama

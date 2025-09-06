@@ -1,0 +1,83 @@
+.input {
+  --input-bg: #ffffff;
+  --input-text: #111827;
+  --input-border: #d1d5db;
+  --input-border-focus: #457b9d;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.input__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.25rem;
+}
+
+.input__field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input__control {
+  width: 100%;
+  color: var(--input-text);
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: box-shadow 150ms ease, border-color 150ms ease, background-color 150ms ease;
+}
+
+.input__control:focus {
+  border-color: var(--input-border-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--input-border-focus) 20%, transparent);
+}
+
+.input--sm .input__control { padding: 0.375rem 0.625rem; font-size: 0.875rem; }
+.input--md .input__control { padding: 0.5rem 0.75rem; font-size: 0.95rem; }
+.input--lg .input__control { padding: 0.625rem 0.875rem; font-size: 1rem; }
+
+.input--rounded .input__control { border-radius: 0.75rem; }
+.input--pill .input__control { border-radius: 9999px; }
+
+.input--filled .input__control {
+  background-color: color-mix(in srgb, var(--input-border) 12%, #ffffff);
+}
+
+.input--underline .input__control {
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom-width: 2px;
+  border-radius: 0;
+}
+
+.input__icon {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  color: #6b7280;
+}
+
+.input__icon--left { left: 0.625rem; }
+.input__icon--right { right: 0.625rem; }
+
+.input--with-left .input__control { padding-left: 2rem; }
+.input--with-right .input__control { padding-right: 2.25rem; }
+
+.input__helper { margin-top: 0.25rem; font-size: 0.75rem; color: #6b7280; }
+.input__error { margin-top: 0.25rem; font-size: 0.75rem; color: #e11d48; }
+.input--error .input__control { border-color: #e11d48; }
+
+.input__toggle {
+  background: transparent;
+  border: none;
+  font-size: 0.75rem;
+  color: #457b9d;
+  cursor: pointer;
+  padding: 0.125rem 0.25rem;
+}
