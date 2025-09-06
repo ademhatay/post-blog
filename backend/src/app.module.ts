@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { configuration, AppConfigService } from './config';
 import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { UsersModule } from './users/users.module';
       envFilePath: '.env',
     }),
     UsersModule,
+    PostsModule,
   ],
   providers: [AppConfigService],
   exports: [AppConfigService],
