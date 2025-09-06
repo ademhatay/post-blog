@@ -4,7 +4,6 @@ export const COLORS = {
   secondary: '#a8dadc',
   background: '#f1faee',
   error: '#e63946',
-  
 
   ui: {
     background: '#f1faee',

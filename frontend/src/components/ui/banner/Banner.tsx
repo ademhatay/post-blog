@@ -7,7 +7,7 @@ type Props = {
 }
 
 const palette: Record<NonNullable<Props['type']>, { bg: string; text: string; border: string }> = {
-  info: { bg: COLORS.nonPhotoBlue, text: COLORS.berkeleyBlue, border: COLORS.cerulean },
+  info: { bg: COLORS.secondary, text: COLORS.main, border: COLORS.primary },
   success: { bg: '#dcfce7', text: '#166534', border: '#22c55e' },
   warning: { bg: '#fef3c7', text: '#92400e', border: '#f59e0b' },
   error: { bg: '#fee2e2', text: '#991b1b', border: '#ef4444' },
@@ -43,4 +43,3 @@ function labelOf(type: NonNullable<Props['type']>) {
       return 'Hata'
   }
 }
-
