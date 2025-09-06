@@ -15,6 +15,7 @@ function RootComponent() {
   const state = useRouterState()
   const path = state.location.pathname
   const isAuth = path.startsWith('/login') || path.startsWith('/register')
+  const isDevelopment = import.meta.env.NODE_ENV === 'development'
   return (
     <>
       {isAuth ? (
@@ -24,18 +25,20 @@ function RootComponent() {
           <Outlet />
         </HomeLayout>
       )}
-      <TanstackDevtools
-        config={{
-          position: 'bottom-right',
-        }}
-        plugins={[
-          {
-            name: 'Tanstack Router',
-            render: <TanStackRouterDevtoolsPanel />,
-          },
-          TanStackQueryDevtools,
-        ]}
-      />
+      {isDevelopment && (
+        <TanstackDevtools
+          config={{
+            position: 'bottom-right',
+          }}
+          plugins={[
+            {
+              name: 'Tanstack Router',
+              render: <TanStackRouterDevtoolsPanel />,
+            },
+            TanStackQueryDevtools,
+          ]}
+        />
+      )}
     </>
   )
 }
