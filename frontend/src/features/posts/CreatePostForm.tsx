@@ -5,8 +5,9 @@ import Input from '@/components/ui/input/input'
 import Button from '@/components/ui/button/button'
 import { http } from '@/lib/http'
 import { ENDPOINTS } from '@/lib/api'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { useAuth } from '@/features/auth/AuthContext'
 
 type FormValues = {
   title: string
@@ -32,6 +33,9 @@ export default function CreatePostForm({
   onCancel?: () => void
 }) {
   const qc = useQueryClient()
+  const { isAuthenticated, user } = useAuth()
+  const isAdmin = isAuthenticated && String(user?.role).toLowerCase() === 'admin'
+  const [targetUserId, setTargetUserId] = useState<string>('')
   const {
     register,
     handleSubmit,
@@ -39,10 +43,23 @@ export default function CreatePostForm({
     formState: { errors },
   } = useForm<FormValues>({ resolver: yupResolver(schema), mode: 'onTouched', defaultValues: initial })
 
+  const usersQuery = useQuery({
+    queryKey: ['users', 'select'],
+    queryFn: async () => {
+      const res = await http.get(ENDPOINTS.USERS.LIST)
+      return Array.isArray(res.data) ? res.data : res.data?.items ?? []
+    },
+    enabled: isAdmin && mode === 'create',
+    staleTime: 60_000,
+  })
+
   const mutation = useMutation({
     mutationFn: async (values: FormValues) => {
       if (mode === 'edit' && postId != null) {
         return http.patch(ENDPOINTS.POSTS.UPDATE(Number(postId)), values)
+      }
+      if (isAdmin && targetUserId) {
+        return http.post(ENDPOINTS.POSTS.CREATE_FOR_USER(Number(targetUserId)), values)
       }
       return http.post(ENDPOINTS.POSTS.CREATE_ME, values)
     },
@@ -53,6 +70,7 @@ export default function CreatePostForm({
         onCancel?.()
       } else {
         reset({ title: '', body: '' })
+        setTargetUserId('')
       }
     },
   })
@@ -65,6 +83,26 @@ export default function CreatePostForm({
 
   return (
     <form className="space-y-3" onSubmit={handleSubmit((v) => mutation.mutateAsync(v))}>
+      {isAdmin && mode === 'create' ? (
+        <div>
+          <label className="input__label">Kimin adına?</label>
+          <select
+            className="w-full border rounded-md p-2"
+            value={targetUserId}
+            onChange={(e) => setTargetUserId(e.target.value)}
+            disabled={usersQuery.isLoading || usersQuery.isError || mutation.isPending}
+          >
+            <option value="">Kendim</option>
+            {Array.isArray(usersQuery.data)
+              ? usersQuery.data.map((u: any) => (
+                  <option key={u.id} value={u.id}>
+                    {u.email}
+                  </option>
+                ))
+              : null}
+          </select>
+        </div>
+      ) : null}
       <Input
         label="Başlık"
         placeholder="Gönderi başlığı"
