@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { configuration, AppConfigService } from './config';
 import { AppController } from './app.controller';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { AppController } from './app.controller';
       load: [configuration],
       envFilePath: '.env',
     }),
+    UsersModule,
   ],
   providers: [AppConfigService],
   exports: [AppConfigService],
