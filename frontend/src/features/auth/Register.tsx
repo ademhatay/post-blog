@@ -7,18 +7,17 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useAuth } from './AuthContext'
 import { useNavigate } from '@tanstack/react-router'
+import { useMutation } from '@tanstack/react-query'
 
 type RegisterForm = {
-  name: string
   email: string
   password: string
 }
 
 const registerSchema: yup.ObjectSchema<RegisterForm> = yup
   .object({
-    name: yup.string().required('Ad Soyad zorunludur').min(2, 'En az 2 karakter'),
     email: yup.string().required('E-posta zorunludur').email('Geçerli bir e-posta girin'),
-    password: yup.string().required('Şifre zorunludur').min(6, 'En az 6 karakter'),
+    password: yup.string().required('Şifre zorunludur').min(4, 'En az 4 karakter'),
   })
   .required()
 
@@ -43,28 +42,20 @@ const Register = () => {
 function RegisterFormComponent() {
   const { register: registerUser } = useAuth()
   const navigate = useNavigate()
+  const mutation = useMutation({
+    mutationFn: (values: RegisterForm) => registerUser(values),
+    onSuccess: () => navigate({ to: '/' }),
+  })
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<RegisterForm>({ resolver: yupResolver(registerSchema), mode: 'onTouched' })
 
-  const onSubmit = async (values: RegisterForm) => {
-    await registerUser(values)
-    navigate({ to: '/' })
-  }
+  const onSubmit = async (values: RegisterForm) => mutation.mutateAsync(values)
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-      <Input
-        id="name"
-        type="text"
-        label="Ad Soyad"
-        placeholder="Adın Soyadın"
-        error={errors.name?.message}
-        {...register('name')}
-      />
-
       <Input
         id="email"
         type="email"
@@ -84,9 +75,14 @@ function RegisterFormComponent() {
         {...register('password')}
       />
 
-      <Button type="submit" block radius="rounded" variant="secondary" loading={isSubmitting}>
+      <Button type="submit" block radius="rounded" variant="secondary" loading={isSubmitting || mutation.isPending}>
         Kayıt Ol
       </Button>
+      {mutation.error ? (
+        <p className="text-sm" style={{ color: '#e11d48' }}>
+          {(mutation.error as Error).message || 'Kayıt başarısız'}
+        </p>
+      ) : null}
     </form>
   )
 }

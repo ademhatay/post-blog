@@ -43,3 +43,4 @@ bun run build
 - Kategoriler
 - Karanlık mod
 - Çoklu dil desteği
+- Profil sayfasında kullanıcının gönderilerini gösterme

@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as UsersRouteImport } from './routes/users'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PostsNewRouteImport } from './routes/posts.new'
 
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RegisterRoute = RegisterRouteImport.update({
   id: '/register',
   path: '/register',
@@ -46,6 +52,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
+  '/users': typeof UsersRoute
   '/posts/new': typeof PostsNewRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +60,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
+  '/users': typeof UsersRoute
   '/posts/new': typeof PostsNewRoute
 }
 export interface FileRoutesById {
@@ -61,14 +69,22 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/profile': typeof ProfileRoute
   '/register': typeof RegisterRoute
+  '/users': typeof UsersRoute
   '/posts/new': typeof PostsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/profile' | '/register' | '/posts/new'
+  fullPaths: '/' | '/login' | '/profile' | '/register' | '/users' | '/posts/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/profile' | '/register' | '/posts/new'
-  id: '__root__' | '/' | '/login' | '/profile' | '/register' | '/posts/new'
+  to: '/' | '/login' | '/profile' | '/register' | '/users' | '/posts/new'
+  id:
+    | '__root__'
+    | '/'
+    | '/login'
+    | '/profile'
+    | '/register'
+    | '/users'
+    | '/posts/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,11 +92,19 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   ProfileRoute: typeof ProfileRoute
   RegisterRoute: typeof RegisterRoute
+  UsersRoute: typeof UsersRoute
   PostsNewRoute: typeof PostsNewRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/register': {
       id: '/register'
       path: '/register'
@@ -124,6 +148,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   ProfileRoute: ProfileRoute,
   RegisterRoute: RegisterRoute,
+  UsersRoute: UsersRoute,
   PostsNewRoute: PostsNewRoute,
 }
 export const routeTree = rootRouteImport

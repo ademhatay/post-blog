@@ -12,10 +12,12 @@ export type NavItem = {
 export function getSidebarItems(params: { isAuthenticated: boolean; role?: 'admin' | 'user' | string }) {
   const items: NavItem[] = [
     { label: 'Anasayfa', to: '/', icon: Home, tooltip: 'Anasayfa' },
-    { label: 'Post Oluştur', to: '/posts/new', icon: FilePlus2, tooltip: 'Yeni Post' },
-    { label: 'Profil', to: '/profile', icon: User, tooltip: 'Profil' },
   ]
-  if (params.role === 'admin') {
+  if (params.isAuthenticated) {
+    items.push({ label: 'Gönderi Oluştur', to: '/posts/new', icon: FilePlus2, tooltip: 'Yeni Post' })
+    items.push({ label: 'Profil', to: '/profile', icon: User, tooltip: 'Profil' })
+  }
+  if (params.role === 'ADMIN') {
     items.push({ label: 'Kullanıcılar', to: '/users', icon: UsersIcon, tooltip: 'Tüm Kullanıcılar' })
   }
   if (params.isAuthenticated) {

@@ -31,6 +31,6 @@ bun run build
 
 ## İleride Eklenebilecekler
 
-- Gelişmiş Filteleme ve Sıralama
+- Gelişmiş Filteleme ve Sıralama (en son eklenenler vs.)
 - Rate Limit
 - Loglama

@@ -15,8 +15,19 @@ export class PostsService {
     }
 
     findAll(userId?: number) {
-        if (userId) return this.posts.filter(p => p.userId === userId);
-        return [...this.posts];
+        let posts = userId ? this.posts.filter(p => p.userId === userId) : [...this.posts];
+
+        return posts.map(post => {
+            const user = this.usersService.findOne(post.userId);
+            return {
+                ...post,
+                user: user ? {
+                    id: user.id,
+                    email: user.email,
+                    role: user.role
+                } : null
+            };
+        });
     }
 
     findOne(id: number) {
@@ -43,5 +54,11 @@ export class PostsService {
         const idx = this.posts.findIndex(p => p.id === id);
         if (idx === -1) throw new NotFoundException('Post not found');
         this.posts.splice(idx, 1);
+    }
+
+    removeByUser(userId: number): number {
+        const before = this.posts.length;
+        this.posts = this.posts.filter(p => p.userId !== userId);
+        return before - this.posts.length;
     }
 }

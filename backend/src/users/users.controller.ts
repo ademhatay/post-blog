@@ -7,11 +7,12 @@ import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { GetUser } from '../common/decorators/get-user.decorator';
+import { PostsService } from 'src/posts/posts.service';
 
 
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService, private postsService: PostsService) { }
 
   @UseGuards(JwtAuthGuard)
   @Get('me')
@@ -75,7 +76,8 @@ export class UsersController {
   @Roles('ADMIN')
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
+    const removedCount = this.postsService.removeByUser(id);
     this.usersService.remove(id);
-    return { ok: true };
+    return { ok: true, removedPosts: removedCount };
   }
 }

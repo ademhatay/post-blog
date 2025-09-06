@@ -5,12 +5,15 @@ import logo from '@/logo.svg'
 import { useRouterState, useNavigate } from '@tanstack/react-router'
 import Button from '@/components/ui/button/button'
 import { useAuth } from '@/features/auth/AuthContext'
+import Banner from '@/components/ui/banner/Banner'
+import { useNotice } from '@/features/ui/NoticeContext'
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate()
   const { user, isAuthenticated, logout } = useAuth()
   const items = useMemo(() => getSidebarItems({ isAuthenticated, role: user?.role }), [isAuthenticated, user?.role])
   const regularItems = useMemo(() => items.filter((i) => !i.isLogout), [items])
+  const { notice, clear } = useNotice()
 
   const getItemClassName = (item: NavItem, index: number) => {
     const classes = ['list']
@@ -51,7 +54,8 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
     const confirmed = window.confirm('Çıkış yapmak istediğinize emin misiniz?')
     if (!confirmed) return
     logout()
-    navigate({ to: '/login' })
+    clear()
+    navigate({ to: '/' })
   }
 
   const onItemClick = (_index: number, item: NavItem, e: React.MouseEvent) => {
@@ -123,7 +127,14 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
           </div>
         </header>
 
-        <main className="app-content">{children}</main>
+        <main className="app-content">
+          {notice ? (
+            <div style={{ marginBottom: 12 }}>
+              <Banner type={notice.type} message={notice.message} onClose={clear} />
+            </div>
+          ) : null}
+          {children}
+        </main>
       </div>
     </div>
   )

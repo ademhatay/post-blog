@@ -1,8 +1,10 @@
+import CreatePostForm from '@/features/posts/CreatePostForm'
+
 const CreatePostScreen = () => {
   return (
-    <div>
-      <h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 12 }}>Post Oluştur</h2>
-      <p>Yeni bir post oluşturma sayfası</p>
+    <div className="max-w-xl">
+      <h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 12 }}>Gönderi Oluştur</h2>
+      <CreatePostForm />
     </div>
   )
 }
