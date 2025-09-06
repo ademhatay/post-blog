@@ -59,42 +59,45 @@ export default function UsersScreen() {
   }
 
   return (
-    <div className="max-w-2xl">
+    <div className="w-full max-w-2xl md:max-w-none">
       <h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 12 }}>Kullanıcılar</h2>
       <div className="rounded-xl overflow-hidden border" style={{ borderColor: '#e5e7eb' }}>
-        <table className="w-full text-left">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="p-3 text-sm text-gray-600">ID</th>
-              <th className="p-3 text-sm text-gray-600">E-posta</th>
-              <th className="p-3 text-sm text-gray-600">Rol</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((u) => (
-              <tr key={u.id} className="border-t" style={{ borderColor: '#e5e7eb' }}>
-                <td className="p-3 text-sm text-gray-800">{u.id}</td>
-                <td className="p-3 text-sm text-gray-800">{u.email}</td>
-                <td className="p-3 text-sm text-gray-500">{u.role ?? '-'}</td>
-                <td className="p-3 text-sm text-right">
-                  {user?.id !== u.id && (
-                    <button
-                      className="text-red-600 hover:underline disabled:opacity-60"
-                      onClick={() => {
-                        const ok = window.confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')
-                        if (!ok) return
-                        delMutation.mutate(u.id)
-                      }}
-                      disabled={delMutation.isPending}
-                    >
-                      Sil
-                    </button>
-                  )}
-                </td>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left min-w-[600px]">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="p-3 text-sm text-gray-600 whitespace-nowrap">ID</th>
+                <th className="p-3 text-sm text-gray-600 whitespace-nowrap">E-posta</th>
+                <th className="p-3 text-sm text-gray-600 whitespace-nowrap">Rol</th>
+                <th className="p-3 text-sm text-gray-600 whitespace-nowrap">İşlemler</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map((u) => (
+                <tr key={u.id} className="border-t" style={{ borderColor: '#e5e7eb' }}>
+                  <td className="p-3 text-sm text-gray-800 whitespace-nowrap">{u.id}</td>
+                  <td className="p-3 text-sm text-gray-800 whitespace-nowrap">{u.email}</td>
+                  <td className="p-3 text-sm text-gray-500 whitespace-nowrap">{u.role ?? '-'}</td>
+                  <td className="p-3 text-sm text-right whitespace-nowrap">
+                    {user?.id !== u.id && (
+                      <button
+                        className="text-red-600 hover:underline disabled:opacity-60"
+                        onClick={() => {
+                          const ok = window.confirm('Bu kullanıcıyı silmek istediğinize emin misiniz?')
+                          if (!ok) return
+                          delMutation.mutate(u.id)
+                        }}
+                        disabled={delMutation.isPending}
+                      >
+                        Sil
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
       {delMutation.isError ? (
         <div className="mt-3 text-sm" style={{ color: '#991b1b' }}>
