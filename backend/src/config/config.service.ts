@@ -14,7 +14,12 @@ export class AppConfigService {
   }
 
   get jwt() {
-    return this.configService.get('jwt');
+    return {
+      accessSecret: this.configService.get<string>('jwt.accessSecret'),
+      refreshSecret: this.configService.get<string>('jwt.refreshSecret'),
+      accessExpire: this.configService.get<string>('jwt.accessExpire'),
+      refreshExpire: this.configService.get<string>('jwt.refreshExpire'),
+    };
   }
 
   get cors() {
