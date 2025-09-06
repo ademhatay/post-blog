@@ -8,15 +8,15 @@ const HomeScreen = () => {
   const { isAuthenticated } = useAuth()
   const { editing, clear } = usePostEditor()
   return (
-    <div className="flex gap-8">
-      <div className="flex-1 max-w-2xl">
+    <div className="flex flex-col md:flex-row gap-6 md:gap-8">
+      <div className="w-full md:flex-1 md:max-w-2xl">
         <h2 style={{ fontSize: 20, fontWeight: 600, marginBottom: 12 }}>Akış</h2>
         <p className="text-gray-500" style={{ marginBottom: 16 }}>Son gönderiler</p>
-        <div className="max-h-[600px] overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d1d5db #f9fafb' }}>
+        <div className="max-h-[60vh] md:max-h-[600px] overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d1d5db #f9fafb' }}>
           <PostsList />
         </div>
       </div>
-      <aside className="flex-1 min-w-0">
+      <aside className="w-full md:flex-1 md:min-w-0">
         {isAuthenticated ? (
           editing ? (
             <div>
