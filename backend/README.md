@@ -29,6 +29,9 @@ Uygulama http://localhost:3000 adresinde açılacak.
 bun run build
 ```
 
+## Deploy
+demo.ademhatay.com'da pm2 ve nginx ile deploy edildi.
+
 ## İleride Eklenebilecekler
 
 - Gelişmiş Filteleme ve Sıralama (en son eklenenler vs.)
